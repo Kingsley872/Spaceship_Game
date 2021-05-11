@@ -19,10 +19,12 @@ public class Game extends JFrame implements KeyListener {
 
   public Game(int width, int height, int speed, int obstacleLevel) {
 
+    // game attributes and settings
     this.width = width;
     this.height = height;
     this.obstacleLevel = obstacleLevel;
 
+    // setup environment for game play
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(width, height);
     this.setLayout(null);
@@ -31,6 +33,7 @@ public class Game extends JFrame implements KeyListener {
     this.getContentPane().setBackground(Color.black);
     this.setVisible(true);
 
+    // init all the components for game play
     obstacleMatrix = new JLabel[width/10][height/10];
     obstacleShowStatus = new boolean[width/10][height/10];
     initObstacle();
@@ -39,7 +42,7 @@ public class Game extends JFrame implements KeyListener {
     obstacleRowGeneratedCount = 0;
     score = 0;
 
-
+    // setup timer for game frame update and obstacle logic
     timer = new Timer((10 - speed) * 100, e -> {
       updateObstacle();
       refresh();
@@ -51,14 +54,17 @@ public class Game extends JFrame implements KeyListener {
     });
   }
 
+  // run game
   public void run () {
     timer.start();
   }
 
+  // refresh the frame
   private void refresh(){
     this.repaint();
   }
 
+  // create a spaceship on the frame
   private void initSpaceShip(){
     spaceShip = new JLabel();
     spaceShip.setBounds(width / 2, height - 40,10,10);
@@ -67,6 +73,7 @@ public class Game extends JFrame implements KeyListener {
     this.add(spaceShip);
   }
 
+  // add all the obstacles on the frame and set all invisible
   private void initObstacle(){
     for(int i = 0; i < obstacleMatrix.length; i++){
       for(int j = 0; j < obstacleMatrix[0].length; j++){
@@ -80,6 +87,7 @@ public class Game extends JFrame implements KeyListener {
     }
   }
 
+  // from button to the top, current row copy status from pre row and generate new row in on the top
   private void updateObstacle(){
     for(int i = obstacleMatrix.length - 1; i >= 1; i--){
       copyPreRow(i);
@@ -87,6 +95,7 @@ public class Game extends JFrame implements KeyListener {
     generateFirstRowOfObstacle();
   }
 
+  // randomly show obstacle on the top of the frame
   private void generateFirstRowOfObstacle(){
     for(int i = 0; i < obstacleShowStatus[0].length; i++){
       obstacleShowStatus[0][i] = isShow();
@@ -96,6 +105,7 @@ public class Game extends JFrame implements KeyListener {
       score++;
   }
 
+  // helper function for copy pre row status
   private void copyPreRow(int index){
     for(int i = 0; i < obstacleShowStatus[index].length; i++){
       obstacleShowStatus[index][i] = obstacleShowStatus[index-1][i];
@@ -103,16 +113,17 @@ public class Game extends JFrame implements KeyListener {
     }
   }
 
+  // helper function to show current obstacle should visible or not randomly
   private boolean isShow(){
     Random rn = new Random();
     return rn.nextInt(10 - obstacleLevel) + 1 == 1;
   }
 
+  // checking collision between obstacle and spaceship by checking
   private void checkCollision() throws InterruptedException {
     if(obstacleShowStatus[spaceShip.getY() / 10][spaceShip.getX() / 10]){
       this.getContentPane().removeAll();
 
-//      isPlaying = false;
       timer.stop();
       JLabel ending = new JLabel("GAME OVER SCORE: " + score, SwingConstants.CENTER);
       ending.setBounds(0, 0,width,height);
@@ -125,6 +136,7 @@ public class Game extends JFrame implements KeyListener {
   }
 
 
+  // keyboard detection
   @Override
   public void keyTyped(KeyEvent e) {
     switch (e.getKeyChar()){
