@@ -2,7 +2,7 @@
 This is a small dodging game. User can control a spaceship left and right to dodging obstacles.
 ---
 # Demo
-![](GameplayDemo.gif)
+![GAMEPLAY](./GameplayDemo.gif)
 ---
 # How to run game 
 1. download the Game.jar file.
