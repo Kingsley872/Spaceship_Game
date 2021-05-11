@@ -1,5 +1,4 @@
 Game.java
  Game
- Game$1
 GameStarter.java
  GameStarter

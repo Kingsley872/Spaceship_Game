@@ -3,8 +3,8 @@ public class GameStarter {
     System.out.println("Space Game");
     /*
     * width and height are the attributes of the window (game environment)
-    * speed: obstacle falling speed  (from 1 - 10) (1 is slow, 10 is fast);
-    * obstacleLevel: how many obstacles for each row (by percentage) (from 1 - 10) (1 is 10%, 10 is 100%)
+    * speed: obstacle falling speed  (from 1 - 9) (1 is slow, 9 is fast);
+    * obstacleLevel: how many obstacles for each row (from 1 - 9) (1 is less, 9 is more)
     * */
 
     int width = Integer.parseInt(args[0]);

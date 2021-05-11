@@ -34,6 +34,8 @@ public class Game extends JFrame implements KeyListener {
     this.setVisible(true);
 
     // init all the components for game play
+    // the ratio between and window size and game objects size are 1:10
+    // for example window size is 500, there are 50 obstacles in a row, each obstacle is size 10*10
     obstacleMatrix = new JLabel[width/10][height/10];
     obstacleShowStatus = new boolean[width/10][height/10];
     initObstacle();
@@ -67,6 +69,7 @@ public class Game extends JFrame implements KeyListener {
   // create a spaceship on the frame
   private void initSpaceShip(){
     spaceShip = new JLabel();
+    // -40 is for adjustment for spaceship, otherwise it will be out of the window
     spaceShip.setBounds(width / 2, height - 40,10,10);
     spaceShip.setBackground(Color.red);
     spaceShip.setOpaque(true);
@@ -78,6 +81,7 @@ public class Game extends JFrame implements KeyListener {
     for(int i = 0; i < obstacleMatrix.length; i++){
       for(int j = 0; j < obstacleMatrix[0].length; j++){
         obstacleMatrix[i][j] = new JLabel();
+        // +3 is a adjustment for obstacle, which make the obstacle in the middle of the 10*10 space
         obstacleMatrix[i][j].setBounds(j * 10, i * 10 + 3,10,2);
         obstacleMatrix[i][j].setBackground(Color.white);
         obstacleMatrix[i][j].setOpaque(true);
@@ -116,14 +120,16 @@ public class Game extends JFrame implements KeyListener {
   // helper function to show current obstacle should visible or not randomly
   private boolean isShow(){
     Random rn = new Random();
-    return rn.nextInt(10 - obstacleLevel) + 1 == 1;
+    return rn.nextInt(11 - obstacleLevel) + 1 == 1;
   }
 
   // checking collision between obstacle and spaceship by checking
   private void checkCollision() throws InterruptedException {
+    // Game is over
     if(obstacleShowStatus[spaceShip.getY() / 10][spaceShip.getX() / 10]){
+      // remove all the component on the window
       this.getContentPane().removeAll();
-
+      // stop timer for refreshing
       timer.stop();
       JLabel ending = new JLabel("GAME OVER SCORE: " + score, SwingConstants.CENTER);
       ending.setBounds(0, 0,width,height);
